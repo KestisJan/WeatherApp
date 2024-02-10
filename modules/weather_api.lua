@@ -1,5 +1,6 @@
 local http_request = require("http.request")
 local json = require("cjson.safe")
+local config = require("config.config")
 
 local WeatherAPI = {}
 
@@ -41,7 +42,7 @@ function WeatherAPI:getWeatherForecast(option, input)
         queryString = string.format("?zip=%s,%s&appid=%s&lang=%s&units=metric", zip, country, self.apiKey, self.lang) -- Change units to imperial if you prefer to see Fahrenheit
     elseif option == "coordinates" then
         local lat, lon = input:match("([%d%.%-]+),%s*([%d%.%-]+)")
-        queryString = string.format("?lat=%s&lon=%s&appid=%s&lang=%s&format=%s&units=metric") -- Change units to imperial if you prefer to see Fahrenheit
+        queryString = string.format("?lat=%s&lon=%s&appid=%s&lang=%s&format=%s&units=metric", lat, lon, self.apiKey, self.lang, self.format) -- Change units to imperial if you prefer to see Fahrenheit
     else
         error("Invalid option: ", option)
     end
