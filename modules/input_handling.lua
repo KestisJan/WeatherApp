@@ -1,7 +1,7 @@
 package.path = package.path .. ';../?/init.lua;../?.lua'
 
-local WeaterAPI = require("modules.weather_api")
-local Output = require("modules.output_handling.api")
+local Output = require("modules.output_handling")
+
 
 local InputHandling = {}
 
@@ -15,15 +15,14 @@ local InputHandling = {}
 function InputHandling:getCityInput(api)
     print("Enter city/cities separated by commas:")
     local input = io.read()
-
     local cities = {}
     for city in input:gmatch("([^,]+)") do
         city = city:gsub(" ", "%%20")
         table.insert(cities, city)
     end
-
+    
     local cityCount = #cities
-
+    
     if cityCount > 0 then
         for _, city in ipairs(cities) do
             local forecast = api:getWeatherForecast("city", city)
@@ -76,22 +75,21 @@ end
 -- @param api: An instance of the WeatherAPI module for retrieving weather forecasts.
 -- @return: A table containing the processed latitude and longitude pairs.
 
-function InputHandling.getCoordinatesInput(api)
+function InputHandling:getCoordinatesInput(api)
     print("Enter latitude and longitude(s) separated by commas:")
     local input = io.read()
-
     local coordinates = {}
     for lat, lon in input:gmatch("([%d%.%-]+),%s*([%d%.%-]+)") do
         table.insert(coordinates, { lat = lat, lon = lon })
     end
     
     local coordinatesCount = #coordinates
-
+    
     if coordinatesCount > 0 then
         for _, data in ipairs(coordinates) do
             local lat = data.lat
             local lon = data.lon
-
+            
             print("Searching for coordinates:", lat, lon)
             local forecast = api:getWeatherForecast("coordinates", lat .. "," .. lon)
             Output.printWeatherForecast(forecast, "coordinates")
@@ -102,3 +100,6 @@ function InputHandling.getCoordinatesInput(api)
 
     return coordinates
 end
+
+
+return InputHandling
