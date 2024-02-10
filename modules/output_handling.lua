@@ -6,6 +6,8 @@
 local OutputHandling = {}
 
 function OutputHandling.printWeatherForecast(forecast, option)
+    print()
+    
     if option == "zipcode" or option == "city" then
         print("City: " .. (forecast.name or "N/A"))
     end
@@ -20,6 +22,8 @@ function OutputHandling.printWeatherForecast(forecast, option)
     print("Description: " .. (forecast.weather and forecast.weather[1] and forecast.weather[1].description or "N/A"))
     print("Humidity: " .. (forecast.main and forecast.main.humidity or "N/A"))
     print("Wind Speed: " .. (forecast.wind and forecast.wind.speed or "N/A"))
+
+    print()
 end
 
 return OutputHandling
