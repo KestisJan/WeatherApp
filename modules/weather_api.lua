@@ -53,7 +53,7 @@ function WeatherAPI:getWeatherForecast(option, input)
     local body = assert(stream:get_body_as_string())
 
     if headers:get(":status") ~= "200" then
-        error(body)
+        error("HTTP Status Code: " .. headers:get(":status") .. "\nError Message: " .. body)
     end
     
     local result = json.decode(body)
