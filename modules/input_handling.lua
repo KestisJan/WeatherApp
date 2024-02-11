@@ -26,7 +26,7 @@ function InputHandling:getCityInput(api)
     if cityCount > 0 then
         for _, city in ipairs(cities) do
             local forecast = api:getWeatherForecast("city", city)
-            Output.printWeatherForecast(forecast, "city")
+            Output:printWeatherForecast(forecast, "city")
         end
     else
         print("No cities provided.")
@@ -48,8 +48,8 @@ function InputHandling:getZipcodeInput(api)
 
     local zipcodes = {}
 
-    for zip, country in input:gmatch("([^,]+),(%u+)") do
-        table.insert(zipcodes, { zip = zip, country = country })
+    for zip, country in input:gmatch("(%d+)%s*,%s*(%a+)") do
+        table.insert(zipcodes, { zip = zip, country = country:upper() })
     end
 
     local zipcodeCount = #zipcodes
@@ -60,7 +60,7 @@ function InputHandling:getZipcodeInput(api)
             local country = data.country
 
             local forecast = api:getWeatherForecast("zipcode", zip .. "," .. country)
-            Output.printWeatherForecast(forecast, 'zipcode')
+            Output:printWeatherForecast(forecast, 'zipcode')
         end
     else
         print("No zip & country codes provided")
@@ -92,7 +92,7 @@ function InputHandling:getCoordinatesInput(api)
             
             print("Searching for coordinates:", lat, lon)
             local forecast = api:getWeatherForecast("coordinates", lat .. "," .. lon)
-            Output.printWeatherForecast(forecast, "coordinates")
+            Output:printWeatherForecast(forecast, "coordinates")
         end
     else
         print("No coordinates provided.")
