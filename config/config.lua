@@ -2,6 +2,7 @@ package.path = package.path .. ';../?/init.lua;../?.lua'
 local env = require('utils.env_utils')
 
 local filePath = "../.env"
+-- Attempt to execute the env.readEnvFile function in a protected call
 local success, envValues = pcall(env.readEnvFile, filePath)
 
 
